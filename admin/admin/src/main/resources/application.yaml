@@ -1,0 +1,19 @@
+
+server:
+  servlet:
+    application-display-name: Admin Service
+  port: 8083
+
+spring:
+  application:
+    name: admin-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8085/realms/demo/protocol/openid-connect/certs
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

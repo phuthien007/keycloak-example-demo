@@ -1,0 +1,58 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8085/realms/demo/protocol/openid-connect/certs
+      client:
+        provider:
+            keycloak:
+                issuer-uri: http://localhost:8085/realms/demo
+        registration:
+          partner:
+              provider: keycloak
+              client-id: partner
+              client-secret: wZRobqCOLKXWoO26mHGwotqJmy3ZI114
+              authorization-grant-type: authorization_code
+              redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+              scope: openid, profile, email
+
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: partner-service
+#          uri: lb://partner-service
+#          predicates:
+#            - Path=/partner/**
+#          filters:
+#            - StripPrefix=1
+##          // admin
+#        - id: admin-service
+#          uri: lb://admin-service
+#          predicates:
+#            - Path=/admin/**
+#          filters:
+#            - StripPrefix=1
+logging:
+  level:
+    root: info
+  org:
+    springframework:
+      cloud:
+        gateway:
+          route:
+            RouteDefinitionLocator: info
+
+
